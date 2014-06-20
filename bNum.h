@@ -12,7 +12,7 @@ struct bNum
 };
 
 struct bNum StructFromStr(char* string);
-struct bNum frInt(long long int val, int base);
+struct bNum fromInt(long long int val, int base);
 char* getString(struct bNum a);
 struct bNum copy(struct bNum from);
 struct bNum DelZeros(struct bNum a);
@@ -70,7 +70,7 @@ struct bNum StructFromStr(char* string)
 	return res;
 }
 
-struct bNum frInt(long long int val, int base)
+struct bNum fromInt(long long int val, int base)
 {
 	struct bNum res;
 	res.nums = (unsigned int*)malloc((100)*sizeof(unsigned int));
@@ -106,7 +106,7 @@ char* getString(struct bNum a)
 	for (i = 0; i < a.size; i++)
 	{
 		char splStr[10];
-		sprintf(splStr, "%09u", a.nums[i]);
+//		sprintf(splStr, "%09u", a.nums[i]);
 
 		pString -= 9;
 		memcpy(pString, splStr, 9);
@@ -176,7 +176,6 @@ long long int compare(struct bNum a, struct bNum b)
 		i--;
 	}
 	return ((long long int) a.nums[i] - (long long int)b.nums[i]) * aSign;
-
 }
 
 struct bNum shiftLeft(struct bNum a, int s)
@@ -391,7 +390,7 @@ struct bNum dividing(struct bNum a, struct bNum b, struct bNum* remainder)
 		{
 			qGuess = (qGuessMax + qGuessMin) / 2;
 
-			struct bNum qGuessBigInt = frInt(qGuess, res.base);
+			struct bNum qGuessBigInt = fromInt(qGuess, res.base);
 			struct bNum tmp = mul(divider, qGuessBigInt);
 			free(qGuessBigInt.nums);
 			tmp = shiftLeft(tmp, i - 1);
@@ -403,7 +402,7 @@ struct bNum dividing(struct bNum a, struct bNum b, struct bNum* remainder)
 
 			free(tmp.nums);
 		}
-		struct bNum qGuessMinBigInt = frInt(qGuessMin, res.base);
+		struct bNum qGuessMinBigInt = fromInt(qGuessMin, res.base);
 		struct bNum tmp = mul(divider, qGuessMinBigInt);
 		free(qGuessMinBigInt.nums);
 		tmp = shiftLeft(tmp, i - 1);
@@ -439,10 +438,10 @@ struct bNum pPow(struct bNum a, struct bNum exp)
 		res.nums = NULL;
 		return res;
 	}
-	struct bNum res = frInt(1, a.base);
-	struct bNum zero = frInt(0, a.base);
+	struct bNum res = fromInt(1, a.base);
+	struct bNum zero = fromInt(0, a.base);
 	struct bNum i = copy(exp);
-	struct bNum minusOne = frInt(-1, a.base);
+	struct bNum minusOne = fromInt(-1, a.base);
 
 	while (compare(i, zero) > 0)
 	{
@@ -473,10 +472,10 @@ struct bNum powMod(struct bNum a, struct bNum exp, struct bNum modulus)
 		res.nums = NULL;
 		return res;
 	}
-	struct bNum res = frInt(1, a.base);
-	struct bNum zero = frInt(0, a.base);
+	struct bNum res = fromInt(1, a.base);
+	struct bNum zero = fromInt(0, a.base);
 	struct bNum i = copy(exp);
-	struct bNum minusOne = frInt(-1, a.base);
+	struct bNum minusOne = fromInt(-1, a.base);
 
 	while (compare(i, zero) > 0)
 	{
@@ -532,7 +531,7 @@ struct bNum ReadFromBFile(char* filename)
 		res.nums[i] = fileContent[i];
 	}
 
-	free(fp);
+	free(fileContent);
 	return res;
 }
 
